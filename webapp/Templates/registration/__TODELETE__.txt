@@ -1,5 +1,0 @@
-Fichiers à supprimer :
-- phone_login.html
-- register.html
-
-Utilisez uniquement login_register.html pour l'accès utilisateur.

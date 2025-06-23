@@ -1,0 +1,74 @@
+# Django/Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.log
+
+# Environnements virtuels
+.venv/
+venv/
+ENV/
+
+# Fichiers de base de données
+*.sqlite3
+*.db
+
+# Fichiers de configuration locaux
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# Dossiers de tests, maquettes, démo
+/test/
+/webapp/Templates/registration/.obsolete
+/webapp/Templates/registration/.keep
+/webapp/Templates/registration/.gitkeep
+/webapp/Templates/registration/.cleanup_instructions.txt
+/webapp/Templates/registration/README.md
+/webapp/Templates/registration/__TODELETE__.txt
+/webapp/Templates/registration/phone_login.html
+/webapp/Templates/registration/register.html
+
+# Fichiers/dossiers générés par collectstatic
+/staticfiles/
+
+# Fichiers de migration compilés
+*.mo
+
+# Fichiers temporaires
+*.swp
+*.swo
+*~
+
+# Fichiers d'OS
+.DS_Store
+Icon?
+
+# Fichiers de test/démo à la racine
+test.sh
+sortie_script.txt
+test_failed_endpoints.sh
+test_gamification.sh
+test_user.sh
+unit_test_endpoint.sh
+add_many_reports.sh
+
+# Fichiers zip/archives
+*.zip
+*.tar.gz
+*.tar
+*.bak
+
+# Dossiers de cache
+.cache/
+
+# Fichiers de logs
+*.log
+
+# Fichiers de production sensibles
+secrets.json
