@@ -1,0 +1,15 @@
+/* Notification component: info, success, error, warning */
+.notification {
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.notification-info { background: #e3f2fd; color: #1976d2; }
+.notification-success { background: #e8f5e9; color: #388e3c; }
+.notification-error { background: #ffebee; color: #d32f2f; }
+.notification-warning { background: #fff8e1; color: #fbc02d; }
+.notification-icon { font-size: 1.3em; }

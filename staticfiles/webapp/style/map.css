@@ -1,0 +1,11 @@
+/* Style minimal pour la carte et les popups */
+#mapid {
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #ccc;
+}
+.leaflet-popup-content img {
+    margin-top: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}

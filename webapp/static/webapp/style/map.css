@@ -1,0 +1,78 @@
+/* Style modernisé pour la carte interactive EcoCity */
+#mapid {
+    width: 100%;
+    min-height: 400px;
+    max-width: 900px;
+    margin: 32px auto 24px auto;
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(60, 120, 80, 0.18), 0 1.5px 8px #b2dfdb;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    animation: mapFadeIn 1.2s cubic-bezier(.4,0,.2,1);
+    transition: box-shadow 0.3s;
+}
+@keyframes mapFadeIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    #mapid {
+        min-height: 300px;
+        max-width: 98vw;
+        margin: 16px 1vw 16px 1vw;
+    }
+}
+
+/* Popups Leaflet modernisés */
+.leaflet-popup-content {
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    font-size: 1.05em;
+    color: #234;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(60,120,80,0.10);
+    padding: 8px 4px 4px 4px;
+}
+.leaflet-popup-content img {
+    margin-top: 8px;
+    border-radius: 6px;
+    border: 1.5px solid #b2dfdb;
+    max-width: 100%;
+    box-shadow: 0 2px 8px #b2dfdb44;
+}
+.leaflet-popup-tip {
+    background: #fff;
+}
+
+/* Bouton de géolocalisation flottant (si id=geoloc-btn) */
+#geoloc-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 1001;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 2px 12px #38f9d766;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6em;
+    cursor: pointer;
+    transition: box-shadow 0.2s, background 0.2s;
+}
+#geoloc-btn:hover {
+    box-shadow: 0 4px 18px #43e97b99;
+    background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%);
+}
+
+/* Amélioration du focus pour l'accessibilité */
+#geoloc-btn:focus {
+    outline: 2px solid #43e97b;
+    outline-offset: 2px;
+}

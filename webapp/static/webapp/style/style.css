@@ -1,0 +1,90 @@
+body {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Animation de fond fun réutilisable */
+.animated-bg {
+  background: linear-gradient(-45deg, #f3f4f6, #bbf7d0, #f0abfc, #fef08a);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+}
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+/* Composant carte centrée */
+.container-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.card {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  animation: fadeInUp 0.8s cubic-bezier(.39,.575,.565,1) both;
+}
+@keyframes fadeInUp {
+  0% {opacity: 0; transform: translateY(40px);}
+  100% {opacity: 1; transform: translateY(0);}
+}
+
+/* Composant input group */
+.input-group {
+  margin-bottom: 1rem;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+.input-group input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.input-group input:focus {
+  border-color: #059669;
+}
+
+/* Composant bouton principal */
+.btn-primary {
+  width: 100%;
+  padding: 0.5rem 0;
+  font-weight: bold;
+  color: #fff;
+  background: #059669;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(5,150,105,0.08);
+}
+.btn-primary:hover {
+  background: #047857;
+  transform: scale(1.04) rotate(-1deg);
+}
+
+.text-error {
+  color: #dc2626;
+  margin-top: 1rem;
+}
+.text-link {
+  color: #059669;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.text-link:hover {
+  color: #047857;
+}

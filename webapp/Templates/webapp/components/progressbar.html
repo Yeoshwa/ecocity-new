@@ -1,0 +1,8 @@
+{# Progressbar component: à inclure avec {% include 'webapp/components/progressbar.html' with value=... max=... label=... %} #}
+<div style="max-width: 420px; margin: 0 auto 1.2rem auto;">
+  <div class="progress" style="height: 1.2rem; background: #e8f5e9; border-radius: 8px; border: 1.5px solid #b2dfdb;">
+    <div class="progress-bar" role="progressbar" style="width: {{ value|floatformat:0 }}%; background: linear-gradient(90deg,#43e97b 0%,#38f9d7 100%); color: #234; font-weight: 500; border-radius: 8px;" aria-valuenow="{{ value|floatformat:0 }}" aria-valuemin="0" aria-valuemax="{{ max|default:100 }}">
+      {% if label %}{{ label }}{% else %}{{ value|floatformat:0 }}%{% endif %}
+    </div>
+  </div>
+</div>

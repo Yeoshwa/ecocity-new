@@ -1,0 +1,12 @@
+/* Composant input EcoCity */
+.eco-input {
+  border: 1px solid #bdbdbd;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+}
+.eco-input:focus {
+  border: 1.5px solid #2e7dff;
+}

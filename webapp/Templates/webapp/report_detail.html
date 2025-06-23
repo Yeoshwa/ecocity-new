@@ -1,0 +1,62 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %}Détail du Signalement{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 700px; margin: 32px auto; background: linear-gradient(135deg,#f5f5f5 0%,#f1f8e9 100%); border-radius: 18px; box-shadow: 0 2px 16px #b2dfdb33; border: 1.5px solid #e0e0e0; padding: 2.5rem 2rem;">
+  <a href="/" style="display:inline-block;margin-bottom:1.5rem;padding:8px 18px;background:#388e3c;color:#fff;border-radius:8px;text-decoration:none;font-weight:500;box-shadow:0 2px 8px #b2dfdb22;transition:background 0.2s;">&larr; Retour à la carte</a>
+  <h2 style="color:#388e3c; font-weight:700;">Détail du Signalement</h2>
+  <div style="margin:20px 0; color:#234;">
+      <b style="color:#757575;">Catégorie :</b> {{ report.categorie }}<br>
+      <b style="color:#757575;">Description :</b> {{ report.description }}<br>
+      <b style="color:#757575;">Statut :</b> {{ report.statut }}<br>
+      <b style="color:#757575;">Gravité :</b> {{ report.gravite }}<br>
+      <b style="color:#757575;">Date :</b> {{ report.created_at|date:'d/m/Y H:i' }}<br>
+  </div>
+  {% if gallery %}
+      <h3 style="color:#388e3c;">Avant / Après (Galerie)</h3>
+      <div style="display:flex;gap:30px;flex-wrap:wrap;justify-content:center;">
+          <div style="text-align:center;">
+              <b style="color:#757575;">Avant :</b><br>
+              <img src="{{ gallery.before_image.url }}" width="220" style="border:2px solid #e0e0e0; border-radius:12px; box-shadow:0 2px 8px #b2dfdb22; margin-bottom:8px;">
+          </div>
+          <div style="text-align:center;">
+              <b style="color:#757575;">Après :</b><br>
+              <img src="{{ gallery.after_image.url }}" width="220" style="border:2px solid #e0e0e0; border-radius:12px; box-shadow:0 2px 8px #b2dfdb22; margin-bottom:8px;">
+          </div>
+      </div>
+  {% endif %}
+  {# Zone bento box pour images supplémentaires #}
+  <h3 style="color:#388e3c; margin-top:2rem;">Autres images du signalement</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:16px;margin-bottom:2rem;">
+    {% for img in report.images.all %}
+      <div class="card" style="background:#fafafa;border-radius:10px;box-shadow:0 2px 8px #b2dfdb22;padding:8px;display:flex;flex-direction:column;align-items:center;">
+        <img src="{{ img.url }}" alt="photo signalement" style="width:100%;max-width:110px;border-radius:8px;border:1.5px solid #e0e0e0;object-fit:cover;">
+        {% if img.legend %}<span style="font-size:0.95em;color:#757575;margin-top:4px;">{{ img.legend }}</span>{% endif %}
+      </div>
+    {% empty %}
+      <div style="color:#888;font-size:0.98em;">Aucune image supplémentaire.</div>
+    {% endfor %}
+  </div>
+  <h3 style="color:#388e3c; margin-top:2rem;">Étapes "Avant"</h3>
+  <ul style="padding-left:1.2em;">
+      {% for step in avants %}
+          <li style="margin-bottom:0.7em; color:#234;">
+            <span style="color:#388e3c;font-weight:500;">{{ step.user.username }}</span> : {{ step.comment }} {% if step.image %}<img src="{{ step.image.url }}" width="80" style="border-radius:8px; border:1.5px solid #e0e0e0; margin-left:8px; vertical-align:middle;">{% endif %}
+          </li>
+      {% empty %}
+          <li style="color:#888;">Aucune étape "avant".</li>
+      {% endfor %}
+  </ul>
+  <h3 style="color:#388e3c; margin-top:1.5rem;">Étapes "Après"</h3>
+  <ul style="padding-left:1.2em;">
+      {% for step in apres %}
+          <li style="margin-bottom:0.7em; color:#234;">
+            <span style="color:#388e3c;font-weight:500;">{{ step.user.username }}</span> : {{ step.comment }} {% if step.image %}<img src="{{ step.image.url }}" width="80" style="border-radius:8px; border:1.5px solid #e0e0e0; margin-left:8px; vertical-align:middle;">{% endif %}
+          </li>
+      {% empty %}
+          <li style="color:#888;">Aucune étape "après".</li>
+      {% endfor %}
+  </ul>
+</div>
+{% endblock %}

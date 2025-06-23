@@ -1,0 +1,4 @@
+Nettoyage recommandé :
+- Supprimez phone_login.html et register.html (obsolètes)
+- Ne gardez que login_register.html
+- Vérifiez que toutes les routes pointent vers login_register

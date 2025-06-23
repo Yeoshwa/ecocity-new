@@ -1,0 +1,11 @@
+/* Composant lien EcoCity */
+.eco-link {
+  color: #2e7dff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.eco-link:hover {
+  color: #1a4fa0;
+  text-decoration: underline;
+}

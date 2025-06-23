@@ -1,0 +1,20 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+
+{% block title %}Carte des Signalements{% endblock %}
+
+{% block content %}
+<nav style="background:#e3e3e3;padding:10px 0 10px 20px;">
+    <a href="/" style="margin-right:20px;">Accueil</a>
+    <a href="/webapp/signaler/" style="margin-right:20px;">Signaler</a>
+    <a href="/webapp/classement/" style="margin-right:20px;">Classement</a>
+    <a href="/webapp/evenements/">Événements</a>
+    <a href="/login/" style="float:right;margin-right:20px;">Connexion / Inscription</a>
+</nav>
+<h2>Carte Interactive des Signalements</h2>
+<div id="mapid" style="height: 600px; width: 100%; margin: 20px 0;"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script>console.log('index.html : balise script geoloc_map.js incluse');</script>
+<script src="{% static 'webapp/js/geoloc_map.js' %}"></script>
+{% endblock %}

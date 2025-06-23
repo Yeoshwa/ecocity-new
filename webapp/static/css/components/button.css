@@ -1,0 +1,20 @@
+/* Composant bouton EcoCity */
+.eco-btn {
+  background: #2e7dff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.eco-btn:hover {
+  background: #1a4fa0;
+}
+.eco-btn--danger {
+  background: #e53935;
+}
+.eco-btn--success {
+  background: #43a047;
+}

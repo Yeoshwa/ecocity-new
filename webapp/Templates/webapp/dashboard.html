@@ -1,0 +1,12 @@
+{% extends 'webapp/base.html' %}
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-lg p-8 space-y-6 bg-white rounded shadow">
+    <h2 class="text-2xl font-bold text-center mb-4">Bienvenue, {{ user.username }} !</h2>
+    <div class="text-center text-lg">Vous êtes connecté à votre tableau de bord.</div>
+    <div class="mt-8 flex flex-col items-center space-y-2">
+      <a href="/logout/" class="text-green-700 hover:underline">Se déconnecter</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

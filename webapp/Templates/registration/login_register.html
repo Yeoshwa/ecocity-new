@@ -1,0 +1,76 @@
+{% extends 'webapp/base.html' %}
+{% load static %}
+{% block title %}Connexion / Inscription{% endblock %}
+{% block content %}
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:url('{% static 'webapp/images/pin-green.png' %}') no-repeat center/cover,linear-gradient(135deg,#f5f5f5 0%,#f1f8e9 100%);">
+  <div id="auth-container" class="card" style="background:rgba(255,255,255,0.97);border-radius:18px;box-shadow:0 2px 16px #b2dfdb33;padding:2.5rem 2rem;max-width:420px;width:100%;">
+    <div style="display:flex;gap:1em;margin-bottom:2em;justify-content:center;">
+      <button id="login-tab" class="button active" type="button" style="flex:1;">Connexion</button>
+      <button id="register-tab" class="button" type="button" style="flex:1;">Inscription</button>
+    </div>
+    <div id="authTabsContent">
+      <div id="login" class="tab-pane active">
+        <form id="loginForm" method="post" autocomplete="on">
+          {% csrf_token %}
+          <input type="hidden" name="loginForm" value="1">
+          <div class="input-group">
+            <label for="login_phone">Téléphone</label>
+            <input type="tel" id="login_phone" name="phone" required class="input">
+          </div>
+          <div class="input-group">
+            <label for="login_password">Mot de passe</label>
+            <input type="password" id="login_password" name="password" required class="input">
+          </div>
+          <button type="submit" class="button w-100">Se connecter</button>
+          <div id="loginError" class="notification error">{{ login_error }}</div>
+        </form>
+      </div>
+      <div id="register" class="tab-pane">
+        <form id="registerForm" method="post" autocomplete="on">
+          {% csrf_token %}
+          <input type="hidden" name="registerForm" value="1">
+          <div class="input-group">
+            <label for="register_username">Nom d'utilisateur</label>
+            <input type="text" id="register_username" name="username" required class="input">
+          </div>
+          <div class="input-group">
+            <label for="register_phone">Téléphone</label>
+            <input type="tel" id="register_phone" name="phone" required class="input">
+          </div>
+          <div class="input-group">
+            <label for="register_password1">Mot de passe</label>
+            <input type="password" id="register_password1" name="password1" required class="input">
+          </div>
+          <div class="input-group">
+            <label for="register_password2">Confirmer le mot de passe</label>
+            <input type="password" id="register_password2" name="password2" required class="input">
+          </div>
+          <button type="submit" class="button w-100">S'inscrire</button>
+          <div id="registerError" class="notification error">{{ register_error }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/components/input.js' %}"></script>
+<script src="{% static 'js/components/button.js' %}"></script>
+<script>
+// JS pour le switch tab simple sans Bootstrap
+const loginTab = document.getElementById('login-tab');
+const registerTab = document.getElementById('register-tab');
+const loginPane = document.getElementById('login');
+const registerPane = document.getElementById('register');
+loginTab.onclick = function() {
+  loginTab.classList.add('active');
+  registerTab.classList.remove('active');
+  loginPane.classList.add('active');
+  registerPane.classList.remove('active');
+};
+registerTab.onclick = function() {
+  registerTab.classList.add('active');
+  loginTab.classList.remove('active');
+  registerPane.classList.add('active');
+  loginPane.classList.remove('active');
+};
+</script>
+{% endblock %}

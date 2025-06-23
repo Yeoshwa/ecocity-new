@@ -1,0 +1,933 @@
+[0] Création d'un nouvel utilisateur (testuser17654)
+{"message":"Inscription réussie.","user":{"id":52,"username":"testuser17654"},"token":{"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MDc0NDg0OSwiaWF0IjoxNzUwNjU4NDQ5LCJqdGkiOiI1MzBlNTY4OWFhMzQ0ZDMxYThjYmMwYmZjZjliMTcyOCIsInVzZXJfaWQiOjUyfQ.GnofYo1FetzX7zuBEQYbDGq75Z2BrOJsofjez08d_3M","access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNjU4NzQ5LCJpYXQiOjE3NTA2NTg0NDksImp0aSI6ImZkMTE0NjMyNWZmYzRiYzJhOGQ4NjJkODI3MjQ3NGRmIiwidXNlcl9pZCI6NTJ9.6egpgykzO3rXHEgIrUZx53UJNU7wwXPFDpCop67pm_k"}}
+Token utilisateur: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNjU4NzQ5LCJpYXQiOjE3NTA2NTg0NDksImp0aSI6ImZkMTE0NjMyNWZmYzRiYzJhOGQ4NjJkODI3MjQ3NGRmIiwidXNlcl9pZCI6NTJ9.6egpgykzO3rXHEgIrUZx53UJNU7wwXPFDpCop67pm_k
+[1] Création d'un badge de base (à faire manuellement si pas d'endpoint public)
+[3] Création d'un événement
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   185  100    72  100   113   5484   8606 --:--:-- --:--:-- --:--:-- 14230{"error":true,"status_code":405,"detail":"Method \"POST\" not allowed."}
+[4] Création d'un  report
+{"id":3,"user":52,"latitude":0.0,"longitude":0.0,"description":"Test report","categorie":"test","statut":"nouveau","gravite":1,"created_at":"2025-06-23T06:00:50.478190Z"}
+[2bis] Création d'un commentaire sur le report 3
+{"error":true,"status_code":400,"detail":"user: [ErrorDetail(string='This field is required.', code='required')]"}
+[5] Vérification des badges disponibles (Badge)
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Page not found at /api/badges/</title>
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <style>
+    html * { padding:0; margin:0; }
+    body * { padding:10px 20px; }
+    body * * { padding:0; }
+    body { font-family: sans-serif; background:#eee; color:#000; }
+    body > :where(header, main, footer) { border-bottom:1px solid #ddd; }
+    h1 { font-weight:normal; margin-bottom:.4em; }
+    h1 small { font-size:60%; color:#666; font-weight:normal; }
+    table { border:none; border-collapse: collapse; width:100%; }
+    td, th { vertical-align:top; padding:2px 3px; }
+    th { width:12em; text-align:right; color:#666; padding-right:.5em; }
+    #info { background:#f6f6f6; }
+    #info ol { margin: 0.5em 4em; }
+    #info ol li { font-family: monospace; }
+    #summary { background: #ffc; }
+    #explanation { background:#eee; border-bottom: 0px none; }
+    pre.exception_value { font-family: sans-serif; color: #575757; font-size: 1.5em; margin: 10px 0 10px 0; }
+  </style>
+</head>
+<body>
+  <header id="summary">
+    <h1>Page not found <small>(404)</small></h1>
+    
+    <table class="meta">
+      <tr>
+        <th scope="row">Request Method:</th>
+        <td>GET</td>
+      </tr>
+      <tr>
+        <th scope="row">Request URL:</th>
+        <td>http://127.0.0.1:8000/api/badges/</td>
+      </tr>
+      
+    </table>
+  </header>
+
+  <main id="info">
+    
+      <p>
+      Using the URLconf defined in <code>ecocity.urls</code>,
+      Django tried these URL patterns, in this order:
+      </p>
+      <ol>
+        
+          <li>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                
+                [name='index']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                about/
+                [name='about']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userprofiles/$
+                [name='userprofile-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userprofiles\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='userprofile-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userprofiles/(?P&lt;pk&gt;[^/.]+)/$
+                [name='userprofile-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userprofiles/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='userprofile-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^reports/$
+                [name='report-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^reports\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='report-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^reports/(?P&lt;pk&gt;[^/.]+)/$
+                [name='report-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^reports/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='report-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^comments/$
+                [name='comment-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^comments\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='comment-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^comments/(?P&lt;pk&gt;[^/.]+)/$
+                [name='comment-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^comments/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='comment-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^events/$
+                [name='event-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^events\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='event-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^events/(?P&lt;pk&gt;[^/.]+)/$
+                [name='event-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^events/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='event-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^apilogs/$
+                [name='apilog-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^apilogs\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='apilog-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^apilogs/(?P&lt;pk&gt;[^/.]+)/$
+                [name='apilog-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^apilogs/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='apilog-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^gallery/$
+                [name='gallery-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^gallery\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='gallery-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^gallery/(?P&lt;pk&gt;[^/.]+)/$
+                [name='gallery-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^gallery/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='gallery-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userbadges/$
+                [name='userbadge-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userbadges\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='userbadge-list']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userbadges/(?P&lt;pk&gt;[^/.]+)/$
+                [name='userbadge-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                ^userbadges/(?P&lt;pk&gt;[^/.]+)\.(?P&lt;format&gt;[a-z0-9]+)/?$
+                [name='userbadge-detail']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                
+                [name='api-root']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                
+                
+              </code>
+            
+              <code>
+                &lt;drf_format_suffix:format&gt;
+                [name='api-root']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                token/
+                [name='token_obtain_pair']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                token/refresh/
+                [name='token_refresh']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                token/verify/
+                [name='token_verify']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                map/pins/
+                [name='map_pins']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                gamification/points/
+                [name='gamification_points']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                gamification/badges/
+                [name='gamification_badges']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                user/leaderboard/
+                [name='leaderboard']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                gallery/
+                [name='gallery']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                swagger/
+                [name='schema-swagger-ui']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                redoc/
+                [name='schema-redoc']
+              </code>
+            
+          </li>
+        
+          <
+100 18232  100 18232    0     0   815k      0 --:--:-- --:--:-- --:--:--  847kli>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                profile/avatar/
+                [name='avatar-upload']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                gamification/progress/
+                [name='gamification_progress']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                token/phone/
+                [name='token_obtain_pair_phone']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                api/
+                
+              </code>
+            
+              <code>
+                auth/register/
+                [name='register']
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                admin/
+                
+              </code>
+            
+          </li>
+        
+          <li>
+            
+              <code>
+                ^media/(?P&lt;path&gt;.*)$
+                
+              </code>
+            
+          </li>
+        
+      </ol>
+      <p>
+        
+          The current path, <code>api/badges/</code>,
+        
+        didn’t match any of these.
+      </p>
+    
+  </main>
+
+  <footer id="explanation">
+    <p>
+      You’re seeing this error because you have <code>DEBUG = True</code> in
+      your Django settings file. Change that to <code>False</code>, and Django
+      will display a standard 404 page.
+    </p>
+  </footer>
+</body>
+</html>
+
+[6] Vérification des badges obtenus (UserBadge)
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100     2  100     2    0     0    134      0 --:--:-- --:--:-- --:--:--   142[]
+[7] Vérification de l'historique d'actions (ActionHistory)
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100    12  100    12    0     0    913      0 --:--:-- --:--:-- --:--:--   923{"points":0}
+[8] Vérification des commentaires
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100     2  100     2    0     0    157      0 --:--:-- --:--:-- --:--:--   166[]
+[9] Vérification des événements
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   188  100   188    0     0  11556      0 --:--:-- --:--:-- --:--:-- 11750[{"id":1,"title":"Netoyage","description":"Ville de test","date":"2025-06-30T18:00:00Z","location":"Kinshasa","created_at":"2025-06-23T05:51:21.060009Z","organizer":1,"participants":[51]}]
+[10] Vérification des reports
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   526  100   526    0     0  42837      0 --:--:-- --:--:-- --:--:-- 43833[{"id":1,"user":49,"latitude":-4.3,"longitude":15.3,"description":"Test report fail","categorie":"pollution","statut":"nouveau","gravite":1,"created_at":"2025-06-23T05:06:03.272010Z"},{"id":2,"user":51,"latitude":0.0,"longitude":0.0,"description":"Test report","categorie":"test","statut":"nouveau","gravite":1,"created_at":"2025-06-23T05:44:43.831443Z"},{"id":3,"user":52,"latitude":0.0,"longitude":0.0,"description":"Test report","categorie":"test","statut":"nouveau","gravite":1,"created_at":"2025-06-23T06:00:50.478190Z"}]
+\nVérifiez dans l'admin Django si les objets Badge, UserBadge, ActionHistory, Comment, Event sont bien créés après ces tests.
+Si UserBadge ou ActionHistory ne sont pas créés automatiquement, il faut ajouter la logique côté backend (signaux ou vues).

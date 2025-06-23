@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}EcoCity{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/input.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/notification.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/progressbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/link.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/modal.css' %}">
+</head>
+<body class="animated-bg">
+  {% block content %}{% endblock %}
+</body>
+</html>
