@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LogIn, UserPlus } from "lucide-react"
+import { toast } from "sonner"
 
 interface LoginModalProps {
   isOpen: boolean
@@ -19,185 +19,183 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
   const [loginData, setLoginData] = useState({
-    email: "",
+    phone: "",
     password: "",
   })
-
   const [registerData, setRegisterData] = useState({
-    name: "",
-    email: "",
+    username: "",
     phone: "",
     password: "",
     confirmPassword: "",
-    role: "Citoyen",
   })
+  const [loading, setLoading] = useState(false)
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    // Connexion admin par défaut
-    if (loginData.email === "admin@ecowatch.com") {
-      const adminUser = {
-        id: 999,
-        name: "Administrateur",
-        email: loginData.email,
-        role: "Admin",
-        avatar: "/placeholder.svg?height=40&width=40",
-        points: 1000,
-        level: 10,
+    setLoading(true)
+    try {
+      const res = await fetch("http://localhost:8000/api/token/phone/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: loginData.phone,
+          password: loginData.password,
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        toast.error(err.detail || "Erreur de connexion")
+        setLoading(false)
+        return
       }
-      onLogin(adminUser)
+      const data = await res.json()
+      if (data.access) localStorage.setItem("jwt", data.access)
+      if (data.refresh) localStorage.setItem("refresh", data.refresh)
+      // Détection admin fiable via le champ 'statut' ou 'role' si présent dans la réponse
+      const isAdmin = (data.statut && data.statut.toLowerCase() === "admin") || (data.role && data.role.toLowerCase() === "admin") || data.username?.toLowerCase() === "admin" || data.phone === "+243999999999";
+      onLogin({
+        id: data.user_id || 1,
+        name: data.username || loginData.phone,
+        phone: loginData.phone,
+        role: isAdmin ? "Admin" : "Citoyen",
+        avatar: "/placeholder.svg?height=40&width=40",
+        points: 0,
+        level: 1,
+      })
+      toast.success("Connexion réussie !")
       onClose()
-      return
+      // Redirection automatique fiable
+      if (typeof window !== "undefined") {
+        if (isAdmin) {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/dashboard";
+        }
+      }
+    } catch (err) {
+      toast.error("Erreur réseau")
     }
-
-    // Simulation de connexion normale
-    const user = {
-      id: 1,
-      name: "Marie Dupont",
-      email: loginData.email,
-      role: "Citoyen",
-      avatar: "/placeholder.svg?height=40&width=40",
-      points: 340,
-      level: 3,
-    }
-    onLogin(user)
-    onClose()
+    setLoading(false)
   }
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     if (registerData.password !== registerData.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas")
+      toast.error("Les mots de passe ne correspondent pas")
       return
     }
-
-    // Simulation d'inscription
-    const user = {
-      id: 1,
-      name: registerData.name,
-      email: registerData.email,
-      phone: registerData.phone,
-      role: registerData.role,
-      avatar: "/placeholder.svg?height=40&width=40",
-      points: 0,
-      level: 1,
+    setLoading(true)
+    try {
+      const res = await fetch("http://localhost:8000/api/auth/register/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: registerData.username,
+          phone: registerData.phone,
+          password: registerData.password,
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        toast.error(err.detail || "Erreur d'inscription")
+        setLoading(false)
+        return
+      }
+      const data = await res.json()
+      if (data.token && data.token.access) localStorage.setItem("jwt", data.token.access)
+      if (data.token && data.token.refresh) localStorage.setItem("refresh", data.token.refresh)
+      // Détection admin simple (à adapter selon ta logique réelle)
+      const isAdmin = registerData.username.toLowerCase() === "admin" || registerData.phone === "+243999999999"
+      onLogin({
+        id: data.user?.id || 1,
+        name: registerData.username,
+        phone: registerData.phone,
+        role: isAdmin ? "Admin" : "Citoyen",
+        avatar: "/placeholder.svg?height=40&width=40",
+        points: 0,
+        level: 1,
+      })
+      toast.success("Inscription réussie !")
+      onClose()
+    } catch (err) {
+      toast.error("Erreur réseau")
     }
-    onLogin(user)
-    onClose()
+    setLoading(false)
   }
 
-  const handleSocialLogin = (provider: string) => {
-    // Simulation de connexion sociale
-    const user = {
-      id: 1,
-      name: "Utilisateur " + provider,
-      email: `user@${provider}.com`,
-      role: "Citoyen",
-      avatar: "/placeholder.svg?height=40&width=40",
-      points: 0,
-      level: 1,
-    }
-    onLogin(user)
-    onClose()
+  const handleDevFeature = (e: React.MouseEvent) => {
+    e.preventDefault()
+    toast.info("Fonctionnalité en cours de développement")
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-center">Rejoignez EcoWatch</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-md min-h-[420px] flex flex-col justify-center">
+        <div className="w-auto max-w-[420px] mx-auto px-6 bg-white/90 dark:bg-background rounded-2xl shadow-xl py-6 md:py-8 backdrop-blur-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">Rejoignez EcoCity</DialogTitle>
+          </DialogHeader>
 
-        <Tabs defaultValue="login" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Connexion</TabsTrigger>
-            <TabsTrigger value="register">Inscription</TabsTrigger>
-          </TabsList>
+          <Tabs defaultValue="login" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger value="login">Connexion</TabsTrigger>
+              <TabsTrigger value="register">Inscription</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="login" className="space-y-4">
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="login-email">Email</Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="login-password">Mot de passe</Label>
-                <Input
-                  id="login-password"
-                  type="password"
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                  required
-                />
-              </div>
-
-              <Button type="submit" className="w-full">
-                <LogIn className="mr-2 h-4 w-4" />
-                Se connecter
-              </Button>
-            </form>
-          </TabsContent>
-
-          <TabsContent value="register" className="space-y-4">
-            <form onSubmit={handleRegister} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="register-name">Nom complet</Label>
-                <Input
-                  id="register-name"
-                  value={registerData.name}
-                  onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
+            <TabsContent value="login" className="space-y-6">
+              <form onSubmit={handleLogin} className="space-y-6 flex flex-col justify-center">
                 <div className="space-y-2">
-                  <Label htmlFor="register-email">Email</Label>
+                  <Label htmlFor="login-phone">Téléphone</Label>
                   <Input
-                    id="register-email"
-                    type="email"
-                    value={registerData.email}
-                    onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                    id="login-phone"
+                    type="tel"
+                    value={loginData.phone}
+                    onChange={(e) => setLoginData({ ...loginData, phone: e.target.value })}
                     required
+                    placeholder="Ex: +243991746157"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="login-password">Mot de passe</Label>
+                  <Input
+                    id="login-password"
+                    type="password"
+                    value={loginData.password}
+                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                    required
+                    placeholder="Votre mot de passe"
+                  />
+                </div>
+                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                  <LogIn className="mr-2 h-4 w-4" />
+                  {loading ? "Connexion..." : "Se connecter"}
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="register" className="space-y-6">
+              <form onSubmit={handleRegister} className="space-y-6 flex flex-col justify-center">
+                <div className="space-y-2">
+                  <Label htmlFor="register-username">Nom d'utilisateur</Label>
+                  <Input
+                    id="register-username"
+                    value={registerData.username}
+                    onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+                    required
+                    placeholder="Votre nom d'utilisateur"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="register-phone">Téléphone</Label>
                   <Input
                     id="register-phone"
+                    type="tel"
                     value={registerData.phone}
                     onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })}
+                    required
+                    placeholder="Ex: +243991746157"
                   />
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="register-role">Rôle</Label>
-                <Select
-                  value={registerData.role}
-                  onValueChange={(value) => setRegisterData({ ...registerData, role: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Citoyen">👤 Citoyen</SelectItem>
-                    <SelectItem value="Organisation">🏛️ Organisation</SelectItem>
-                    <SelectItem value="ONG">🌿 ONG</SelectItem>
-                    <SelectItem value="Admin">🔧 Administrateur</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-2">
                   <Label htmlFor="register-password">Mot de passe</Label>
                   <Input
@@ -206,27 +204,37 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                     value={registerData.password}
                     onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                     required
+                    placeholder="Votre mot de passe"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="register-confirm">Confirmer</Label>
+                  <Label htmlFor="register-confirm">Confirmer le mot de passe</Label>
                   <Input
                     id="register-confirm"
                     type="password"
                     value={registerData.confirmPassword}
                     onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
                     required
+                    placeholder="Confirmez le mot de passe"
                   />
                 </div>
-              </div>
+                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  {loading ? "Inscription..." : "S'inscrire"}
+                </Button>
+              </form>
+            </TabsContent>
 
-              <Button type="submit" className="w-full">
-                <UserPlus className="mr-2 h-4 w-4" />
-                S'inscrire
+            <div className="flex gap-2 pt-2">
+              <Button type="button" variant="outline" className="flex-1" onClick={handleDevFeature}>
+                Connexion Google
               </Button>
-            </form>
-          </TabsContent>
-        </Tabs>
+              <Button type="button" variant="outline" className="flex-1" onClick={handleDevFeature}>
+                Connexion Facebook
+              </Button>
+            </div>
+          </Tabs>
+        </div>
       </DialogContent>
     </Dialog>
   )

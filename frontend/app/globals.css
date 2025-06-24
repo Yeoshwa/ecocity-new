@@ -97,3 +97,10 @@
     opacity: 0.5;
   }
 }
+
+@media (max-width: 767px) {
+  /* Ajoute un padding-bottom aux contrôles Leaflet en bas à gauche pour éviter la superposition avec les boutons flottants */
+  .leaflet-bottom .leaflet-control {
+    margin-bottom: 4.5rem !important;
+  }
+}

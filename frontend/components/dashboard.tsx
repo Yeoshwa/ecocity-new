@@ -412,10 +412,10 @@ export function Dashboard({ user, reports, events }: DashboardProps) {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6" data-component={componentName}>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Tableau de bord {user.role === "Admin" ? "Administrateur" : user.role}</h1>
-        <p className="text-muted-foreground">Bienvenue, {user.name}</p>
+        <p className="text-muted-foreground">Bienvenue, <span className="font-semibold text-green-700">{user.name}</span></p>
       </div>
 
       {user.role === "Citoyen" && renderCitizenDashboard()}

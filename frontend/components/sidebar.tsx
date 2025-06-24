@@ -52,7 +52,7 @@ export function Sidebar({
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-green-600">EcoWatch</h2>
+            <h2 className="text-lg font-semibold text-green-600">EcoCity</h2>
             <Button variant="ghost" size="icon" onClick={onClose} className="md:hidden">
               <X className="h-5 w-5" />
             </Button>
