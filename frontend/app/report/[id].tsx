@@ -5,16 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Plus, MapPin } from "lucide-react";
 
 interface ReportDetailPageProps {
   params: { id: string }
 }
 
 export default function ReportDetailPage({ params }: ReportDetailPageProps) {
+  const componentName = 'ReportDetailPage';
   const { id } = params;
   const [report, setReport] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const componentName = ReportDetailPage.name;
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/reports/${id}/`)
@@ -36,7 +37,29 @@ export default function ReportDetailPage({ params }: ReportDetailPageProps) {
       <div className="w-full max-w-lg mx-auto">
         <div className="mb-4">
           <Link href="/">
-            <Button variant="outline">← Retour à la carte</Button>
+            <Button
+              className="!bg-green-700 !hover:bg-green-800 !text-white !shadow-[0_0_32px_0_#16a34a99] !px-12 !py-6 !rounded-2xl !font-extrabold !text-3xl !w-full !uppercase !tracking-widest !flex !items-center !justify-center !gap-4 animate-report-attract"
+              style={{
+                backgroundColor: '#15803d',
+                color: '#fff',
+                boxShadow: '0 0 48px 0 #16a34a99',
+                fontWeight: 900,
+                fontSize: '2.2rem',
+                borderRadius: '1.25rem',
+                padding: '1.5rem 3rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1.25rem',
+                animation: 'report-attract 1.3s cubic-bezier(.4,0,.2,1) infinite',
+              }}
+            >
+              <MapPin className="w-10 h-10 mr-2 -ml-2" />
+              Signaler ici !
+            </Button>
           </Link>
         </div>
         <Card className="max-w-lg w-full mx-auto mt-0">

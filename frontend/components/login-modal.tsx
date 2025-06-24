@@ -29,6 +29,7 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
     confirmPassword: "",
   })
   const [loading, setLoading] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,6 +86,8 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
       return
     }
     setLoading(true)
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
     try {
       const res = await fetch("http://localhost:8000/api/auth/register/", {
         method: "POST",
@@ -174,7 +177,15 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
             </TabsContent>
 
             <TabsContent value="register" className="space-y-6">
-              <form onSubmit={handleRegister} className="space-y-6 flex flex-col justify-center">
+              <form onSubmit={handleRegister} className="space-y-6 flex flex-col justify-center relative">
+                {/* Confettis animés */}
+                {showConfetti && (
+                  <div className="pointer-events-none absolute left-1/2 top-0 z-50 w-full flex justify-center" style={{transform:'translateX(-50%)'}}>
+                    {[...Array(18)].map((_,i) => (
+                      <span key={i} className={`confetti confetti-${i}`} />
+                    ))}
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="register-username">Nom d'utilisateur</Label>
                   <Input
@@ -218,7 +229,7 @@ export function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
                     placeholder="Confirmez le mot de passe"
                   />
                 </div>
-                <Button type="submit" className="w-full mt-4" disabled={loading}>
+                <Button type="submit" className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white shadow-lg px-4 py-2 rounded-full" disabled={loading}>
                   <UserPlus className="mr-2 h-4 w-4" />
                   {loading ? "Inscription..." : "S'inscrire"}
                 </Button>

@@ -98,9 +98,139 @@
   }
 }
 
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1) rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(80px) scale(0.7) rotate(360deg);
+  }
+}
+.confetti {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 18px;
+  border-radius: 2px;
+  opacity: 0.85;
+  animation: confetti-fall 2.5s cubic-bezier(.4, 0, .2, 1) forwards;
+}
+
+/* Couleurs et positions différentes pour chaque confetti */
+.confetti-0 {
+  left: 10%;
+  background: #16a34a;
+  animation-delay: 0s;
+}
+.confetti-1 {
+  left: 20%;
+  background: #22d3ee;
+  animation-delay: .1s;
+}
+.confetti-2 {
+  left: 30%;
+  background: #facc15;
+  animation-delay: .2s;
+}
+.confetti-3 {
+  left: 40%;
+  background: #f472b6;
+  animation-delay: .15s;
+}
+.confetti-4 {
+  left: 50%;
+  background: #16a34a;
+  animation-delay: .05s;
+}
+.confetti-5 {
+  left: 60%;
+  background: #f59e42;
+  animation-delay: .18s;
+}
+.confetti-6 {
+  left: 70%;
+  background: #22d3ee;
+  animation-delay: .12s;
+}
+.confetti-7 {
+  left: 80%;
+  background: #facc15;
+  animation-delay: .22s;
+}
+.confetti-8 {
+  left: 90%;
+  background: #16a34a;
+  animation-delay: .09s;
+}
+.confetti-9 {
+  left: 15%;
+  background: #f472b6;
+  animation-delay: .13s;
+}
+.confetti-10 {
+  left: 25%;
+  background: #f59e42;
+  animation-delay: .17s;
+}
+.confetti-11 {
+  left: 35%;
+  background: #22d3ee;
+  animation-delay: .11s;
+}
+.confetti-12 {
+  left: 45%;
+  background: #facc15;
+  animation-delay: .19s;
+}
+.confetti-13 {
+  left: 55%;
+  background: #16a34a;
+  animation-delay: .07s;
+}
+.confetti-14 {
+  left: 65%;
+  background: #f472b6;
+  animation-delay: .21s;
+}
+.confetti-15 {
+  left: 75%;
+  background: #f59e42;
+  animation-delay: .16s;
+}
+.confetti-16 {
+  left: 85%;
+  background: #22d3ee;
+  animation-delay: .14s;
+}
+.confetti-17 {
+  left: 95%;
+  background: #facc15;
+  animation-delay: .23s;
+}
+
 @media (max-width: 767px) {
   /* Ajoute un padding-bottom aux contrôles Leaflet en bas à gauche pour éviter la superposition avec les boutons flottants */
   .leaflet-bottom .leaflet-control {
     margin-bottom: 4.5rem !important;
   }
+}
+
+@keyframes report-attract {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 #16a34a55;
+  }
+  50% {
+    transform: scale(1.13);
+    box-shadow: 0 0 32px 8px #16a34a55;
+  }
+}
+.animate-report-attract {
+  animation: report-attract 1.3s cubic-bezier(.4, 0, .2, 1) infinite;
 }

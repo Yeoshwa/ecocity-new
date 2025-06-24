@@ -28,6 +28,7 @@ export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
   const [search, setSearch] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
+  const [showReportAnimation, setShowReportAnimation] = useState(false);
   const router = useRouter();
   const isMobile = useIsMobile();
   const alertTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -176,9 +177,36 @@ export default function HomePage() {
     }
   };
 
+  // Fonction pour ouvrir le modal de report et lancer l'animation
+  const handleReportButtonClick = () => {
+    setShowReportModal(true);
+    setShowReportAnimation(true);
+    setTimeout(() => setShowReportAnimation(false), 1200);
+  };
+
   // Responsive: padding et taille des boutons adaptés
   return (
     <div className={`relative h-screen w-screen overflow-hidden ${isMobile ? 'p-2' : 'p-0'}`} data-component={componentName}>
+      {/* Texte EcoCity à côté des boutons de zoom */}
+      <div className="leaflet-top leaflet-left z-[9999] pointer-events-none" style={{position:'absolute',top:16,left:70}}>
+        <span className="text-2xl md:text-3xl font-extrabold text-green-700 drop-shadow-lg bg-white/80 rounded-full px-4 py-1 border-2 border-green-200 shadow" style={{letterSpacing:'0.05em'}}>EcoCity</span>
+      </div>
+      {/* Animation texte report */}
+      {showReportAnimation && (
+        <div
+          className="fixed z-40"
+          style={{
+            left: isMobile ? 'calc(100% - 70px)' : 'calc(100% - 110px)',
+            bottom: isMobile ? '80px' : '110px',
+            pointerEvents: 'none',
+            animation: 'report-fly 1.2s cubic-bezier(0.4,0,0.2,1) forwards',
+          }}
+        >
+          <span className="inline-block px-4 py-2 bg-green-600 text-white rounded-full shadow-lg font-bold text-lg">
+            Nouveau signalement !
+          </span>
+        </div>
+      )}
       {/* Carte interactive en fond */}
       <div className="absolute inset-0 z-0 h-full w-full">
         <InteractiveMap
@@ -192,8 +220,8 @@ export default function HomePage() {
       {/* Boutons flottants - alignés verticalement à droite */}
       <div className={`absolute bottom-6 right-6 z-20 flex flex-col gap-4 ${isMobile ? 'right-2 bottom-2' : ''}`}>
         <Button
-          onClick={() => setShowReportModal(true)}
-          className={`rounded-full ${isMobile ? 'h-12 w-12' : 'h-16 w-16'} bg-green-600 hover:bg-green-700 shadow-2xl transition-all hover:scale-105`}
+          onClick={handleReportButtonClick}
+          className={`rounded-full ${isMobile ? 'h-12 w-12' : 'h-16 w-16'} bg-green-600 hover:bg-green-700 shadow-2xl transition-all hover:scale-105 animate-report-attract`}
           size="icon"
         >
           <Plus className={isMobile ? 'h-5 w-5 text-white' : 'h-7 w-7 text-white'} />

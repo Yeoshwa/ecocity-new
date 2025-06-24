@@ -12,15 +12,34 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ReportSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='categorie')
     user = serializers.PrimaryKeyRelatedField(read_only=True)
+    photo = serializers.ImageField(required=False, allow_null=True)
     class Meta:
         model = Report
-        fields = '__all__'
+        # On inclut tous les champs du modèle, mais expose 'category' au lieu de 'categorie'
+        fields = [
+            'id', 'category', 'description', 'latitude', 'longitude', 'photo', 'created_at', 'user', 'statut', 'gravite'
+        ]
+        read_only_fields = ['id', 'photo', 'created_at', 'user']
 
     def validate(self, attrs):
-        if 'statut' not in attrs or not attrs['statut']:
-            attrs['statut'] = 'citoyen'
-        return super().validate(attrs)
+        try:
+            required_fields = ['categorie', 'description', 'latitude', 'longitude']
+            missing = [f for f in required_fields if not attrs.get(f)]
+            if missing:
+                import logging
+                logging.error(f"Champs manquants dans POST /api/reports/: {missing} | attrs={attrs}")
+                raise serializers.ValidationError({f: 'Ce champ est obligatoire.' for f in missing})
+            if 'statut' not in attrs or not attrs['statut']:
+                attrs['statut'] = 'citoyen'
+            if 'gravite' not in attrs or not attrs['gravite']:
+                attrs['gravite'] = 1
+            return super().validate(attrs)
+        except Exception as e:
+            import logging
+            logging.exception(f"Erreur dans ReportSerializer.validate: {e}")
+            raise serializers.ValidationError({'non_field_error': str(e)})
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -76,6 +95,7 @@ class PhoneTokenObtainPairSerializer(serializers.Serializer):
             'user_id': user.id,
             'username': user.username,
             'phone': profile.phone,
+            'statut': profile.statut,  # Ajout du statut dans la réponse
         }
 
 class RegisterSerializer(serializers.Serializer):

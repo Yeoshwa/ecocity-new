@@ -26,7 +26,14 @@ SECRET_KEY = 'django-insecure-u*!c%mh-x8t4_@_$k$0e7&^&+#su+9&nqns$wlc*7=$!%dbw5f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "ecocity.nexus-congo.com",
+    "www.ecocity.nexus-congo.com",
+    "localhost",
+    "127.0.0.1",
+    # "IP_PUBLIQUE_DU_SERVEUR",  # Ajoute ici ton IP si besoin
+]
+
 
 
 # Application definition
@@ -42,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'webapp',
-   'corsheaders',
+    'corsheaders',
 ]   
 
 

@@ -14,6 +14,8 @@ interface DashboardProps {
 }
 
 export function Dashboard({ user, reports, events }: DashboardProps) {
+  const componentName = "Dashboard";
+
   const stats = {
     totalReports: reports.length,
     resolvedReports: reports.filter((r) => r.status === "resolved").length,

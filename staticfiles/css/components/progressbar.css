@@ -1,0 +1,14 @@
+/* Composant progressbar EcoCity */
+.eco-progressbar {
+  width: 100%;
+  background: #e0e0e0;
+  border-radius: 8px;
+  height: 18px;
+  overflow: hidden;
+}
+.eco-progressbar__bar {
+  height: 100%;
+  background: #2e7dff;
+  border-radius: 8px 0 0 8px;
+  transition: width 0.4s;
+}

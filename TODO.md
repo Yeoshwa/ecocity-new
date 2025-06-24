@@ -12,20 +12,26 @@
 - [x] Affichage des événements citoyens (GET /api/v1/events/), participation à un événement
 
 ## 2. Composants frontend à relier à l’API
-- [ ] **[Priorité 1]** Formulaires d’authentification (login/register)
-- [ ] **[Priorité 1]** Formulaire de signalement (avec upload photo, géoloc, description, catégorie)
-- [ ] Carte interactive (affichage des pins, popups avec détails)
-- [ ] **[Priorité 1]** Dashboard utilisateur (points, badges, progression, signalements récents)
-- [ ] **[Priorité 1]** Dashboard organisation/admin (statistiques, gestion, notifications)
+- [x] **[Priorité 1]** Formulaires d’authentification (login/register)
+- [x] **[Priorité 1]** Formulaire de signalement (avec upload photo, géoloc, description, catégorie)
+- [x] Carte interactive (affichage des pins, popups avec détails)
+- [x] **[Priorité 1]** Dashboard utilisateur (points, badges, progression, signalements récents)
+- [x] **[Priorité 1]** Dashboard organisation/admin (statistiques, gestion, notifications)
 - [ ] Galerie avant/après
 - [ ] Composant commentaires
 - [ ] Composant classement/leaderboard
 - [ ] Composant événements
 
 ## 3. Pour une première présentation publique
-- [ ] Les composants non encore connectés à l’API doivent afficher des données factices (mock) ou placeholders élégants
-- [ ] Les interactions principales (signalement, carte, login, dashboard) doivent fonctionner ou simuler un flux utilisateur
-- [ ] Les pages doivent être accessibles via la navigation, même si certaines fonctionnalités sont en “coming soon” ou “démo”
+- [x] Les composants non encore connectés à l’API doivent afficher des données factices (mock) ou placeholders élégants
+- [x] Les interactions principales (signalement, carte, login, dashboard) doivent fonctionner ou simuler un flux utilisateur
+- [x] Les pages doivent être accessibles via la navigation, même si certaines fonctionnalités sont en “coming soon” ou “démo”
+
+## Étapes à réaliser pour lier login/register frontend à l'API backend
+- [x] Remplacer la logique simulée de LoginModal par des appels réels à l’API backend (login/register)
+- [x] Gérer le stockage du token JWT après connexion/inscription
+- [x] Afficher les erreurs et succès avec un toast
+- [x] Pour chaque bouton ou fonctionnalité non reliée à l’API, afficher un popup “Fonctionnalité en cours de développement”
 
 ---
 
