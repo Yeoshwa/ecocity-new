@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
+import L from "leaflet"
 
 interface Report {
   id: number
@@ -35,90 +36,87 @@ interface InteractiveMapProps {
   onMapClick: (lat: number, lng: number) => void
 }
 
+const defaultPosition: [number, number] = [-4.312, 15.284]; // Kinshasa, Gombe
+
+function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(e) {
+      onMapClick(e.latlng.lat, e.latlng.lng)
+    },
+  })
+  return null
+}
+
 export function InteractiveMap({ reports, events, onPinClick, onMapClick }: InteractiveMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null)
+  const reportIcon = new L.Icon({
+    iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    shadowSize: [41, 41],
+  })
 
-  useEffect(() => {
-    // Simulation d'une carte interactive
-    if (mapRef.current) {
-      mapRef.current.innerHTML = ""
 
-      // Créer le conteneur de la carte
-      const mapContainer = document.createElement("div")
-      mapContainer.className = "relative w-full h-full bg-green-50 dark:bg-green-950"
-      mapContainer.style.backgroundImage = `
-        radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
-        linear-gradient(45deg, rgba(34, 197, 94, 0.05) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(34, 197, 94, 0.05) 25%, transparent 25%)
-      `
-      mapContainer.style.backgroundSize = "100px 100px, 100px 100px, 20px 20px, 20px 20px"
-
-      // Ajouter les pins des signalements
-      reports.forEach((report, index) => {
-        const pin = document.createElement("div")
-        pin.className = `absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-110`
-        pin.style.left = `${30 + index * 15}%`
-        pin.style.top = `${40 + index * 10}%`
-
-        const pinColor =
-          report.type === "urgent" ? "bg-red-500" : report.type === "moderate" ? "bg-yellow-500" : "bg-green-500"
-
-        pin.innerHTML = `
-          <div class="w-6 h-6 ${pinColor} rounded-full border-2 border-white shadow-lg flex items-center justify-center">
-            <div class="w-2 h-2 bg-white rounded-full"></div>
-          </div>
-          <div class="absolute top-6 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 px-2 py-1 rounded text-xs shadow-lg whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            ${report.category}
-          </div>
-        `
-
-        pin.addEventListener("click", () => onPinClick(report))
-        mapContainer.appendChild(pin)
-      })
-
-      // Ajouter les pins des événements
-      events.forEach((event, index) => {
-        const pin = document.createElement("div")
-        pin.className = `absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2 z-10 transition-transform hover:scale-110`
-        pin.style.left = `${60 + index * 10}%`
-        pin.style.top = `${30 + index * 15}%`
-
-        pin.innerHTML = `
-          <div class="w-8 h-8 bg-purple-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
-            <span class="text-white text-xs">📅</span>
-          </div>
-          <div class="absolute top-8 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 px-2 py-1 rounded text-xs shadow-lg whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            ${event.title}
-          </div>
-        `
-
-        pin.addEventListener("click", () => onPinClick(event))
-        mapContainer.appendChild(pin)
-      })
-
-      // Gestionnaire de clic sur la carte
-      mapContainer.addEventListener("click", (e) => {
-        if (e.target === mapContainer) {
-          const rect = mapContainer.getBoundingClientRect()
-          const x = e.clientX - rect.left
-          const y = e.clientY - rect.top
-          const lat = 48.8566 + (y / rect.height - 0.5) * 0.01
-          const lng = 2.3522 + (x / rect.width - 0.5) * 0.01
-          onMapClick(lat, lng)
-        }
-      })
-
-      mapRef.current.appendChild(mapContainer)
-    }
-  }, [reports, events, onPinClick, onMapClick])
-
+  console.log("reports", reports);
+  console.log("events", events);
   return (
-    <div ref={mapRef} className="w-full h-full">
-      {/* Fallback content */}
-      <div className="w-full h-full bg-green-50 dark:bg-green-950 flex items-center justify-center">
-        <p className="text-muted-foreground">Chargement de la carte...</p>
-      </div>
-    </div>
+    <MapContainer center={defaultPosition} zoom={13} style={{ height: "100%", width: "100%" }} scrollWheelZoom={true}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <MapClickHandler onMapClick={onMapClick} />
+      {reports
+  .filter(report => typeof report.lat === "number" && typeof report.lng === "number")
+  .map((report) => (
+    <Marker
+      key={"report-" + report.id}
+      position={[report.lat, report.lng]}
+      icon={reportIcon}
+      eventHandlers={{ click: () => onPinClick(report) }}
+    >
+      <Popup>
+        <div>
+          <strong>{report.category}</strong>
+          <br />
+          {report.description}
+          <br />
+          <span style={{ fontSize: "0.85em", color: "#888" }}>{report.date}</span>
+          <br />
+          <a href={`/report/${report.id}`} style={{ color: "blue", textDecoration: "underline" }}>Voir le signalement</a>
+        </div>
+      </Popup>
+    </Marker>
+))}
+
+{events
+  .filter(event =>
+    typeof event.lat === "number" &&
+    typeof event.lng === "number" &&
+    !isNaN(event.lat) &&
+    !isNaN(event.lng)
+  )
+  .map((event) => (
+    <Marker
+      key={"event-" + event.id}
+      position={[event.lat, event.lng]}
+      icon={reportIcon}
+      eventHandlers={{ click: () => onPinClick(event) }}
+    >
+      <Popup>
+        <div>
+          <strong>{event.title}</strong>
+          <br />
+          {event.location}
+          <br />
+          <span style={{ fontSize: "0.85em", color: "#888" }}>{event.date}</span>
+          <br />
+          <a href={`/event/${event.id}`} style={{ color: "blue", textDecoration: "underline" }}>Voir l'événement</a>
+        </div>
+      </Popup>
+    </Marker>
+))}
+    </MapContainer>
   )
 }

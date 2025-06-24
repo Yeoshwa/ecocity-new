@@ -42,10 +42,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'webapp',
+   'corsheaders',
 ]   
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,3 +144,10 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER': 'api.utils.custom_exception_handler',
 }
+
+CORS_ALLOW_ALL_ORIGINS = True  # Pour dev uniquement, à restreindre en prod
+# Pour la prod, préfère :
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+# ]

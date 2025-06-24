@@ -1,21 +1,94 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Plus, Camera, Bell, Globe } from "lucide-react"
-import { ReportModal } from "@/components/report-modal"
-import { LoginModal } from "@/components/login-modal"
-import { InteractiveMap } from "@/components/interactive-map"
-import { Card, CardContent } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+//import { InteractiveMap } from "../components/interactive-map";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus, Camera, Bell, Globe } from "lucide-react";
+import { ReportModal } from "@/components/report-modal";
+import { LoginModal } from "@/components/login-modal";
+
+const InteractiveMap = dynamic(() => import("../components/interactive-map").then(mod => mod.InteractiveMap), {
+  ssr: false,
+});
 
 export default function HomePage() {
-  const [showReportModal, setShowReportModal] = useState(false)
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [userLocation, setUserLocation] = useState({ lat: -4.441931, lng: 15.266293 }); // Default to Kinshasa
+  const [zoom, setZoom] = useState(13);
+  const [reports, setReports] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+          setZoom(15);
+        },
+        (error) => {
+          setUserLocation({ lat: -4.441931, lng: 15.266293 });
+          setZoom(13);
+        }
+      );
+    } else {
+      setUserLocation({ lat: -4.441931, lng: 15.266293 });
+      setZoom(13);
+    }
+    // Appel API reports
+// Appel API reports
+fetch("http://localhost:8000/api/reports/")
+  .then(res => res.json())
+  .then(data => setReports(
+    data.map(r => ({
+      ...r,
+      lat: Number(r.latitude),
+      lng: Number(r.longitude),
+      category: r.category || "Report",
+      date: r.date || "",
+      description: r.description || "",
+    }))
+  ))
+  .catch(err => console.error("Erreur chargement reports", err));
+
+// Appel API events (adapte si besoin)
+fetch("http://localhost:8000/api/events/")
+  .then(res => res.json())
+  .then(data => setEvents(
+    data.map(e => ({
+      ...e,
+      lat: Number(e.latitude),
+      lng: Number(e.longitude),
+      title: e.title || "Event",
+      date: e.date || "",
+      location: e.location || "",
+    }))
+  ))
+  .catch(err => console.error("Erreur chargement events", err));
+  }, []);
+
+  
+
+  const handlePinClick = (item) => {
+    window.location.href = item.category ? `/report/${item.id}` : `/event/${item.id}`;
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
-      {/* Carte interactive plein écran */}
-      <InteractiveMap reports={[]} events={[]} onPinClick={() => {}} onMapClick={() => setShowReportModal(true)} />
+      {/* Carte interactive en fond */}
+      <div className="absolute inset-0 z-0">
+        <InteractiveMap
+          center={userLocation}
+          zoom={zoom}
+          reports={reports}
+          events={events}
+          onPinClick={handlePinClick}
+          onMapClick={() => setShowReportModal(true)}
+        />
+      </div>
 
       {/* Message d'accueil */}
       <Card className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 shadow-xl bg-white/95 backdrop-blur-sm border-0">
@@ -76,5 +149,5 @@ export default function HomePage() {
       <ReportModal isOpen={showReportModal} onClose={() => setShowReportModal(false)} onSubmit={() => {}} />
       <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} onLogin={() => {}} />
     </div>
-  )
+  );
 }

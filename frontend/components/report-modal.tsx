@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -23,37 +22,74 @@ export function ReportModal({ isOpen, onClose, onSubmit }: ReportModalProps) {
     description: "",
     photo: null as File | null,
     location: "Position actuelle",
-  })
+    latitude: -4.312, // Kinshasa par défaut
+    longitude: 15.284,
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  // Met à jour la position utilisateur à l'ouverture du modal
+  useEffect(() => {
+    if (isOpen && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setFormData((prev) => ({
+            ...prev,
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+            location: "Position actuelle",
+          }));
+        },
+        () => {
+          setFormData((prev) => ({
+            ...prev,
+            latitude: -4.312,
+            longitude: 15.284,
+            location: "Kinshasa/Gombe (défaut)",
+          }));
+        }
+      );
+    }
+  }, [isOpen]);
+
+  console.log("formData envoyé:", formData);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     if (!formData.category || !formData.description) {
-      toast.error("Veuillez remplir tous les champs obligatoires")
-      return
+      toast.error("Veuillez remplir tous les champs obligatoires");
+      return;
     }
 
-    const report = {
-      ...formData,
-      lat: 48.8566 + Math.random() * 0.01,
-      lng: 2.3522 + Math.random() * 0.01,
-      photo: "/placeholder.svg?height=200&width=300",
-      address: `${Math.floor(Math.random() * 100)} Rue de la République, Paris`,
+    try {
+      const response = await fetch("http://localhost:8000/api/reports/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: formData.category, // adapte si l'API attend 'type'
+          description: formData.description,
+          latitude: formData.latitude,
+          longitude: formData.longitude,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        toast.error("Erreur: " + (errorData.detail || JSON.stringify(errorData) || response.status));
+        return;
+      }
+      toast.success("Merci pour votre signalement 💚");
+      setFormData({
+        category: "",
+        description: "",
+        photo: null,
+        location: "Position actuelle",
+        latitude: -4.312,
+        longitude: 15.284,
+      });
+      onClose();
+    } catch (err) {
+      toast.error("Erreur lors de l'envoi du signalement");
     }
-
-    onSubmit(report)
-    toast.success("Merci pour votre signalement 💚")
-
-    // Reset form
-    setFormData({
-      category: "",
-      description: "",
-      photo: null,
-      location: "Position actuelle",
-    })
-
-    onClose()
-  }
+  };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
